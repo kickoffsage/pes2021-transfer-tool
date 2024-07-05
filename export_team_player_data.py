@@ -23,6 +23,8 @@ def read_team_data(file_path, team_entries_start_offset, team_entries_end_offset
                 if len(player_id_bytes) < 4:
                     break
                 player_id = struct.unpack('<I', player_id_bytes)[0]
+                # if player_id == 0x00000000:
+                #     player_id = 0  # Interpret 0x00000000 as 0 for internal processing
                 team_player_ids.append(player_id)
 
             # Read the next 80 bytes for shirtNumbers in little-endian format
@@ -43,7 +45,7 @@ def read_team_data(file_path, team_entries_start_offset, team_entries_end_offset
 
 def read_csv_mapping(file_path):
     mapping = {}
-    with open(file_path, 'r') as csvfile:
+    with open(file_path, 'r') as csvfile, open(file_path, 'r') as csvfile:
         csvreader = csv.reader(csvfile)
         next(csvreader)  # Skip header
         for row in csvreader:
@@ -63,6 +65,15 @@ def read_transfers(file_path):
             transfers.append((player_id, from_team_id, to_team_id))
     return transfers
 
+def shift_and_clean_team(players, shirts):
+    """Ensure empty spots (0) are at the end of the lists."""
+    non_empty_players = [p for p in players if p != 0]
+    non_empty_shirts = [s for s in shirts if s != 0]
+    empty_spots = 40 - len(non_empty_players)
+    non_empty_players.extend([0] * empty_spots)
+    non_empty_shirts.extend([0] * empty_spots)
+    return non_empty_players, non_empty_shirts
+
 def apply_transfers(teams_data, transfers):
     team_dict = {team_id: (team_player_ids, shirt_numbers) for team_id, team_player_ids, shirt_numbers in teams_data}
     
@@ -76,12 +87,27 @@ def apply_transfers(teams_data, transfers):
                 index = from_team_players.index(player_id)
                 from_team_players[index] = 0  # Mark as empty
                 from_team_shirts[index] = 0
+                
+                # Shift players and shirts to ensure empty spots are at the end
+                from_team_players, from_team_shirts = shift_and_clean_team(from_team_players, from_team_shirts)
+                team_dict[from_team_id] = (from_team_players, from_team_shirts)
 
                 # Add player to the new team if there's an empty spot
                 try:
                     new_index = to_team_players.index(0)  # Find the first empty spot
                     to_team_players[new_index] = player_id
-                    to_team_shirts[new_index] = 0  # Assuming the shirt number needs to be reassigned
+                    
+                    # Find an unused shirt number
+                    used_shirt_numbers = set(to_team_shirts)
+                    new_shirt_number = 1
+                    while new_shirt_number in used_shirt_numbers or new_shirt_number == 0:
+                        new_shirt_number += 1
+                    to_team_shirts[new_index] = new_shirt_number  # Assign new shirt number
+
+                    # Shift players and shirts in the new team to ensure empty spots are at the end
+                    to_team_players, to_team_shirts = shift_and_clean_team(to_team_players, to_team_shirts)
+                    team_dict[to_team_id] = (to_team_players, to_team_shirts)
+
                 except ValueError:
                     print(f"No empty spot for player {player_id} in team {to_team_id}. Transfer skipped.")
 
@@ -110,11 +136,13 @@ def rewrite_binary(original_file_path, new_file_path, teams_data, team_entries_s
             
             # Write player IDs
             for player_id in team_player_ids:
-                f.write(struct.pack('<I', player_id))
+                # Write 0x00000000 for empty spots
+                f.write(struct.pack('<I', player_id if player_id != 0 else 0x00000000))
             
             # Write shirt numbers
             for shirt_number in shirt_numbers:
-                f.write(struct.pack('<H', shirt_number))
+                # Write 0x00000000 for empty spots
+                f.write(struct.pack('<H', shirt_number if shirt_number != 0 else 0x00000000))
             
             # Skip 40 bytes
             f.seek(40, 1)

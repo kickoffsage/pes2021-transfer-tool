@@ -24,10 +24,17 @@ def read_team_data(file_path, team_entries_start_offset, team_entries_end_offset
                 player_id = struct.unpack('<I', player_id_bytes)[0]
                 team_player_ids.append(player_id)
 
-            teams_data.append((team_id, team_player_ids))
-
             # Skip the next 80 bytes (shirt numbers)
-            f.seek(80, 1)
+            # Read the next 80 bytes for shirtNumbers in little-endian format
+            shirt_numbers = []
+            for _ in range(40):
+                shirt_number_bytes = f.read(2)
+                if len(shirt_number_bytes) < 2:
+                    break
+                shirt_number = struct.unpack('<H', shirt_number_bytes)[0]
+                shirt_numbers.append(shirt_number)
+
+            teams_data.append((team_id, team_player_ids, shirt_numbers))
 
             # Skip the next 40 bytes to reach next team
             f.seek(40, 1)
@@ -48,14 +55,13 @@ def read_csv_mapping(file_path):
 def write_to_csv(output_path, teams_data, team_names, player_names):
     with open(output_path, 'w', newline='') as csvfile:
         csvwriter = csv.writer(csvfile)
-        # Write the header
-        csvwriter.writerow(['TeamID', 'TeamName', 'TeamPlayerID', 'PlayerName'])
-        # Write the teamID, teamName, teamPlayerID, and playerName
-        for team_id, team_player_ids in teams_data:
+        csvwriter.writerow(['TeamID', 'TeamName', 'PlayerID', 'PlayerName', 'ShirtNumber'])
+
+        for team_id, team_player_ids, shirt_numbers in teams_data:
             team_name = team_names.get(team_id, 'Unknown Team')
-            for team_player_id in team_player_ids:
+            for team_player_id, shirt_number in zip(team_player_ids, shirt_numbers):
                 player_name = player_names.get(team_player_id, 'Empty Player' if team_player_id == 0 else 'Unknown Player')
-                csvwriter.writerow([team_id, team_name, team_player_id, player_name])
+                csvwriter.writerow([team_id, team_name, team_player_id, player_name, shirt_number])
 
 def main():
     parser = argparse.ArgumentParser(description='Extract team and player data from binary file.')

@@ -58,7 +58,7 @@ def get_best_match(query, choices):
             best_match = choice
     return best_match, highest_ratio
 
-def match_data(transfers, players_data, teams_data):
+def match_data(transfers, players_data, teams_data, confidence_threshold=80):
     """Matches the transfer data with the reference data to find player and team IDs."""
     ref_players = {row['PlayerName']: row['PlayerID'] for row in players_data}
     ref_teams = {row['TeamName']: row['TeamID'] for row in teams_data}
@@ -71,15 +71,32 @@ def match_data(transfers, players_data, teams_data):
         from_team_match, from_team_confidence = get_best_match(from_club, ref_teams.keys())
         to_team_match, to_team_confidence = get_best_match(to_club, ref_teams.keys())
 
-        player_id = ref_players.get(player_name_match, 'N/A')
-        from_team_id = ref_teams.get(from_team_match, 'N/A')
-        to_team_id = ref_teams.get(to_team_match, 'N/A')
+        if player_confidence >= confidence_threshold:
+            player_id = ref_players.get(player_name_match, 0)
+            player_name = player_name_match
+        else:
+            player_id = 0
+            player_name = player
+
+        if from_team_confidence >= confidence_threshold:
+            from_team_id = ref_teams.get(from_team_match, 0)
+            from_team_name = from_team_match
+        else:
+            from_team_id = 0
+            from_team_name = from_club
+
+        if to_team_confidence >= confidence_threshold:
+            to_team_id = ref_teams.get(to_team_match, 0)
+            to_team_name = to_team_match
+        else:
+            to_team_id = 0
+            to_team_name = to_club
 
         matched_transfers.append([
             date,
-            player_id, player_name_match, player_confidence,
-            from_team_id, from_team_match, from_team_confidence,
-            to_team_id, to_team_match, to_team_confidence
+            player_id, player_name, player_confidence,
+            from_team_id, from_team_name, from_team_confidence,
+            to_team_id, to_team_name, to_team_confidence
         ])
 
     return matched_transfers
@@ -97,7 +114,7 @@ def write_to_csv(transfers, filename='temp/latest_transfermarkt_transfers.csv'):
         writer.writerows(transfers)
     print(f'Data has been written to {filename}')
 
-def main(players_csv, teams_csv):
+def main(players_csv, teams_csv, confidence_threshold=80):
     # League ID to filter transfers
     league = 'GB1'  # English Premier League
 
@@ -118,13 +135,14 @@ def main(players_csv, teams_csv):
 
     players_data = read_input_csv(players_csv)
     teams_data = read_input_csv(teams_csv)
-    matched_transfers = match_data(all_transfers, players_data, teams_data)
+    matched_transfers = match_data(all_transfers, players_data, teams_data, confidence_threshold)
     write_to_csv(matched_transfers)
 
 if __name__ == '__main__':
-    if len(sys.argv) != 3:
-        print("Usage: python fetch_latest_transfermarkt_transfers.py <players_csv> <teams_csv>")
+    if len(sys.argv) < 3 or len(sys.argv) > 4:
+        print("Usage: python fetch_latest_transfermarkt_transfers.py <players_csv> <teams_csv> [confidence_threshold]")
     else:
         players_csv = sys.argv[1]
         teams_csv = sys.argv[2]
-        main(players_csv, teams_csv)
+        confidence_threshold = int(sys.argv[3]) if len(sys.argv) == 4 else 80
+        main(players_csv, teams_csv, confidence_threshold)

@@ -23,8 +23,8 @@ def read_team_data(file_path, team_entries_start_offset, team_entries_end_offset
                 if len(player_id_bytes) < 4:
                     break
                 player_id = struct.unpack('<I', player_id_bytes)[0]
-                # if player_id == 0x00000000:
-                #     player_id = 0  # Interpret 0x00000000 as 0 for internal processing
+                if player_id == 0x00000000:
+                    player_id = 0  # Interpret 0x00000000 as 0 for internal processing
                 team_player_ids.append(player_id)
 
             # Read the next 80 bytes for shirtNumbers in little-endian format
@@ -45,7 +45,7 @@ def read_team_data(file_path, team_entries_start_offset, team_entries_end_offset
 
 def read_csv_mapping(file_path):
     mapping = {}
-    with open(file_path, 'r') as csvfile, open(file_path, 'r') as csvfile:
+    with open(file_path, 'r') as csvfile:
         csvreader = csv.reader(csvfile)
         next(csvreader)  # Skip header
         for row in csvreader:
@@ -65,14 +65,14 @@ def read_transfers(file_path):
             transfers.append((player_id, from_team_id, to_team_id))
     return transfers
 
-def shift_and_clean_team(players, shirts):
-    """Ensure empty spots (0) are at the end of the lists."""
-    non_empty_players = [p for p in players if p != 0]
-    non_empty_shirts = [s for s in shirts if s != 0]
-    empty_spots = 40 - len(non_empty_players)
-    non_empty_players.extend([0] * empty_spots)
-    non_empty_shirts.extend([0] * empty_spots)
-    return non_empty_players, non_empty_shirts
+def replace_with_last_non_zero(players, shirts, index):
+    """Replace the player at the given index with the last non-zero player in the list."""
+    last_non_zero_index = next((i for i in range(len(players) - 1, -1, -1) if players[i] != 0), index)
+    players[index] = players[last_non_zero_index]
+    shirts[index] = shirts[last_non_zero_index]
+    players[last_non_zero_index] = 0
+    shirts[last_non_zero_index] = 0
+    return players, shirts
 
 def apply_transfers(teams_data, transfers):
     team_dict = {team_id: (team_player_ids, shirt_numbers) for team_id, team_player_ids, shirt_numbers in teams_data}
@@ -85,11 +85,7 @@ def apply_transfers(teams_data, transfers):
             if player_id in from_team_players:
                 # Remove player from the old team
                 index = from_team_players.index(player_id)
-                from_team_players[index] = 0  # Mark as empty
-                from_team_shirts[index] = 0
-                
-                # Shift players and shirts to ensure empty spots are at the end
-                from_team_players, from_team_shirts = shift_and_clean_team(from_team_players, from_team_shirts)
+                from_team_players, from_team_shirts = replace_with_last_non_zero(from_team_players, from_team_shirts, index)
                 team_dict[from_team_id] = (from_team_players, from_team_shirts)
 
                 # Add player to the new team if there's an empty spot
@@ -104,8 +100,6 @@ def apply_transfers(teams_data, transfers):
                         new_shirt_number += 1
                     to_team_shirts[new_index] = new_shirt_number  # Assign new shirt number
 
-                    # Shift players and shirts in the new team to ensure empty spots are at the end
-                    to_team_players, to_team_shirts = shift_and_clean_team(to_team_players, to_team_shirts)
                     team_dict[to_team_id] = (to_team_players, to_team_shirts)
 
                 except ValueError:
@@ -141,8 +135,7 @@ def rewrite_binary(original_file_path, new_file_path, teams_data, team_entries_s
             
             # Write shirt numbers
             for shirt_number in shirt_numbers:
-                # Write 0x00000000 for empty spots
-                f.write(struct.pack('<H', shirt_number if shirt_number != 0 else 0x00000000))
+                f.write(struct.pack('<H', shirt_number))
             
             # Skip 40 bytes
             f.seek(40, 1)

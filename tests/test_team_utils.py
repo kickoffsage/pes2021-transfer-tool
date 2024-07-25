@@ -44,7 +44,6 @@ class TestTeamUtils(unittest.TestCase):
         ]
 
         test_file = self.create_test_file(teams)
-        print(test_file)
 
         try:
             teams_data = read_team_data(test_file, 10307144, 10520143)

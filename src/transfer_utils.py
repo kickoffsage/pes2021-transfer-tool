@@ -1,3 +1,6 @@
+from src.tactics_utils import update_tactics_for_team
+
+
 def replace_with_last_non_zero(players, shirts, index):
     """Replace the player at the given index with the last non-zero player in the list."""
     last_non_zero_index = next((i for i in range(len(players) - 1, -1, -1) if players[i] != 0), index)
@@ -7,7 +10,7 @@ def replace_with_last_non_zero(players, shirts, index):
     shirts[last_non_zero_index] = 0
     return players, shirts, last_non_zero_index
 
-def apply_transfers(teams_data, transfers):
+def apply_transfers(binary_file_path, teams_data, transfers):
     team_dict = {team_id: (team_player_ids, shirt_numbers) for team_id, team_player_ids, shirt_numbers in teams_data}
     
     for player_id, from_team_id, to_team_id in transfers:
@@ -20,6 +23,8 @@ def apply_transfers(teams_data, transfers):
                 index = from_team_players.index(player_id)
                 from_team_players, from_team_shirts, last_non_zero_index = replace_with_last_non_zero(from_team_players, from_team_shirts, index)
                 team_dict[from_team_id] = (from_team_players, from_team_shirts)
+
+                update_tactics_for_team(binary_file_path, from_team_id, last_non_zero_index)
 
                 # Add player to the new team if there's an empty spot
                 try:

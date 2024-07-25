@@ -30,7 +30,7 @@ def main():
     player_names = read_csv_mapping(args.player_names_csv)
     transfers = read_transfers(args.transfers_csv)
 
-    teams_data = apply_transfers(teams_data, transfers)
+    teams_data = apply_transfers(args.new_binary_file_path, teams_data, transfers)
 
     write_to_csv(args.csv_output_path, teams_data, team_names, player_names)
 

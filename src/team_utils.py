@@ -20,8 +20,6 @@ def read_team_data(binary_file_path, team_entries_start_offset, team_entries_end
                 if len(player_id_bytes) < 4:
                     break
                 player_id = struct.unpack('<I', player_id_bytes)[0]
-                # if player_id == 0x00000000:
-                #     player_id = 0  # Interpret 0x00000000 as 0 for internal processing
                 team_player_ids.append(player_id)
 
             # Read the next 80 bytes for shirtNumbers in little-endian format

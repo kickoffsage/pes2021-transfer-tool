@@ -101,7 +101,7 @@ def match_data(transfers, players_data, teams_data, confidence_threshold=80):
 
     return matched_transfers
 
-def write_to_csv(transfers, filename='temp/latest_transfermarkt_transfers.csv'):
+def write_to_csv(transfers, filename='dist/latest_transfermarkt_transfers.csv'):
     """Writes the transfer data to a CSV file."""
     with open(filename, 'w', newline='', encoding='utf-8') as file:
         writer = csv.writer(file)

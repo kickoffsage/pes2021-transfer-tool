@@ -23,7 +23,7 @@ def update_tactics_for_team(binary_file_path, team_id, player_index):
                     index_to_remove = player_indices.index(player_index)
                     # Remove the player index and shift the rest
                     player_indices.pop(index_to_remove)
-                    player_indices.append(0xFF)
+                    player_indices = player_indices[:player_index] + [player_index] + player_indices[player_index:]
                     
                     # Write back the modified player indices
                     f.seek(current_offset + team_id_size + padding_size)

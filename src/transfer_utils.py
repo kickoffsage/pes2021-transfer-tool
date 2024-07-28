@@ -18,7 +18,7 @@ def apply_transfers(binary_file_path, teams_data, transfers):
             from_team_players, from_team_shirts = team_dict[from_team_id]
             to_team_players, to_team_shirts = team_dict[to_team_id]
             
-            if player_id in from_team_players:
+            if player_id != 0 and player_id in from_team_players:
                 # Remove player from the old team
                 index = from_team_players.index(player_id)
                 from_team_players, from_team_shirts, last_non_zero_index = replace_with_last_non_zero(from_team_players, from_team_shirts, index)

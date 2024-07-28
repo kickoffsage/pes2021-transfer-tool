@@ -4,48 +4,55 @@ import csv
 import sys
 from fuzzywuzzy import fuzz
 
+
 def fetch_transfermarkt_page(url):
     """Fetches the HTML content of the Transfermarkt page."""
-    headers = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36'}
+    headers = {
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36"
+    }
     response = requests.get(url, headers=headers)
     response.raise_for_status()  # Check for request errors
     return response.text
 
+
 def parse_transfers(html):
     """Parses the HTML content to extract transfer data."""
-    soup = BeautifulSoup(html, 'html.parser')
-    table = soup.find('table', {'class': 'items'})
-    rows = table.find_all('tr', {'class': ['odd', 'even']})
-    
+    soup = BeautifulSoup(html, "html.parser")
+    table = soup.find("table", {"class": "items"})
+    rows = table.find_all("tr", {"class": ["odd", "even"]})
+
     transfers = []
 
     for row in rows:
-        columns = row.find_all('td', recursive=False)
-        
+        columns = row.find_all("td", recursive=False)
+
         date = columns[5].text.strip()
-        player = columns[0].find('a').text.strip()
-        from_club = columns[3].find_all('img')[0].get('title').strip()
-        to_club = columns[4].find_all('img')[0].get('title').strip()
-        
+        player = columns[0].find("a").text.strip()
+        from_club = columns[3].find_all("img")[0].get("title").strip()
+        to_club = columns[4].find_all("img")[0].get("title").strip()
+
         transfers.append([date, player, from_club, to_club])
 
     return transfers
 
+
 def get_next_page_url(soup):
     """Gets the URL of the next page if it exists, otherwise returns None."""
-    next_page_tag = soup.select_one('li.tm-pagination__list-item--icon-next-page > a')
+    next_page_tag = soup.select_one("li.tm-pagination__list-item--icon-next-page > a")
     if next_page_tag:
-        return 'https://www.transfermarkt.com' + next_page_tag['href']
+        return "https://www.transfermarkt.com" + next_page_tag["href"]
     return None
+
 
 def read_input_csv(filename):
     """Reads the input CSV containing team and player data."""
     data = []
-    with open(filename, 'r', encoding='utf-8') as file:
+    with open(filename, "r", encoding="utf-8") as file:
         reader = csv.DictReader(file)
         for row in reader:
             data.append(row)
     return data
+
 
 def get_best_match(query, choices):
     """Finds the best match for a query string within a list of choices and returns the match and the confidence score."""
@@ -58,17 +65,22 @@ def get_best_match(query, choices):
             best_match = choice
     return best_match, highest_ratio
 
+
 def match_data(transfers, players_data, teams_data, confidence_threshold=80):
     """Matches the transfer data with the reference data to find player and team IDs."""
-    ref_players = {row['PlayerName']: row['PlayerID'] for row in players_data}
-    ref_teams = {row['TeamName']: row['TeamID'] for row in teams_data}
+    ref_players = {row["PlayerName"]: row["PlayerID"] for row in players_data}
+    ref_teams = {row["TeamName"]: row["TeamID"] for row in teams_data}
 
     matched_transfers = []
     for transfer in transfers:
         date, player, from_club, to_club = transfer
 
-        player_name_match, player_confidence = get_best_match(player, ref_players.keys())
-        from_team_match, from_team_confidence = get_best_match(from_club, ref_teams.keys())
+        player_name_match, player_confidence = get_best_match(
+            player, ref_players.keys()
+        )
+        from_team_match, from_team_confidence = get_best_match(
+            from_club, ref_teams.keys()
+        )
         to_team_match, to_team_confidence = get_best_match(to_club, ref_teams.keys())
 
         if player_confidence >= confidence_threshold:
@@ -92,35 +104,56 @@ def match_data(transfers, players_data, teams_data, confidence_threshold=80):
             to_team_id = 0
             to_team_name = to_club
 
-        matched_transfers.append([
-            date,
-            player_id, player_name, player_confidence,
-            from_team_id, from_team_name, from_team_confidence,
-            to_team_id, to_team_name, to_team_confidence
-        ])
+        matched_transfers.append(
+            [
+                date,
+                player_id,
+                player_name,
+                player_confidence,
+                from_team_id,
+                from_team_name,
+                from_team_confidence,
+                to_team_id,
+                to_team_name,
+                to_team_confidence,
+            ]
+        )
 
     return matched_transfers
 
-def write_to_csv(transfers, filename='dist/latest_transfermarkt_transfers.csv'):
+
+def write_to_csv(transfers, filename="dist/latest_transfermarkt_transfers.csv"):
     """Writes the transfer data to a CSV file."""
-    with open(filename, 'w', newline='', encoding='utf-8') as file:
+    with open(filename, "w", newline="", encoding="utf-8") as file:
         writer = csv.writer(file)
-        writer.writerow([
-            'TransferDate',
-            'PlayerID', 'PlayerName', 'PlayerMatchConfidence',
-            'FromTeamID', 'FromTeamName', 'FromTeamMatchConfidence',
-            'ToTeamID', 'ToTeamName', 'ToTeamMatchConfidence'
-        ])
+        writer.writerow(
+            [
+                "TransferDate",
+                "PlayerID",
+                "PlayerName",
+                "PlayerMatchConfidence",
+                "FromTeamID",
+                "FromTeamName",
+                "FromTeamMatchConfidence",
+                "ToTeamID",
+                "ToTeamName",
+                "ToTeamMatchConfidence",
+            ]
+        )
         writer.writerows(transfers)
-    print(f'Data has been written to {filename}')
+    print(f"Data has been written to {filename}")
+
 
 def main(players_csv, teams_csv, confidence_threshold=80):
     # League ID to filter transfers
-    league = 'GB1'  # English Premier League
+    league = "GB1"  # English Premier League
 
     # Base URL of the Transfermarkt page to scrape
-    base_url = 'https://www.transfermarkt.com/transfers/neuestetransfers/statistik/plus/?plus=1&galerie=0&wettbewerb_id=%s&land_id=&selectedOptionInternalType=nothingSelected&minMarktwert=0&maxMarktwert=500.000.000&minAbloese=0&maxAbloese=500.000.000&yt0=Show' % league
-    
+    base_url = (
+        "https://www.transfermarkt.com/transfers/neuestetransfers/statistik/plus/?plus=1&galerie=0&wettbewerb_id=%s&land_id=&selectedOptionInternalType=nothingSelected&minMarktwert=0&maxMarktwert=500.000.000&minAbloese=0&maxAbloese=500.000.000&yt0=Show"
+        % league
+    )
+
     current_url = base_url
     all_transfers = []
 
@@ -129,18 +162,23 @@ def main(players_csv, teams_csv, confidence_threshold=80):
         html_content = fetch_transfermarkt_page(current_url)
         transfers = parse_transfers(html_content)
         all_transfers.extend(transfers)
-        
-        soup = BeautifulSoup(html_content, 'html.parser')
+
+        soup = BeautifulSoup(html_content, "html.parser")
         current_url = get_next_page_url(soup)
 
     players_data = read_input_csv(players_csv)
     teams_data = read_input_csv(teams_csv)
-    matched_transfers = match_data(all_transfers, players_data, teams_data, confidence_threshold)
+    matched_transfers = match_data(
+        all_transfers, players_data, teams_data, confidence_threshold
+    )
     write_to_csv(matched_transfers)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     if len(sys.argv) < 3 or len(sys.argv) > 4:
-        print("Usage: python fetch_latest_transfermarkt_transfers.py <players_csv> <teams_csv> [confidence_threshold]")
+        print(
+            "Usage: python fetch_latest_transfermarkt_transfers.py <players_csv> <teams_csv> [confidence_threshold]"
+        )
     else:
         players_csv = sys.argv[1]
         teams_csv = sys.argv[2]

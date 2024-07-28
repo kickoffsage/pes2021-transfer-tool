@@ -1,4 +1,5 @@
 import unittest
+from unittest.mock import patch
 from src.transfer_utils import apply_transfers
 
 
@@ -186,7 +187,10 @@ class TestTransferUtils(unittest.TestCase):
             (216, 2, 1),  # Move player 216 from team 2 to team 1
         ]
 
-        updated_teams_data = apply_transfers(teams_data, transfers)
+        with patch("src.transfer_utils.update_tactics_for_team"):
+            updated_teams_data = apply_transfers(
+                "path/to/binary", teams_data, transfers
+            )
 
         # Check team 1 updated data
         team1_id, team1_player_ids, team1_shirt_numbers = updated_teams_data[0]

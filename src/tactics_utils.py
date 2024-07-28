@@ -22,7 +22,7 @@ def update_tactics_for_team(binary_file_path, team_id, player_index):
                 if player_index in player_indices:
                     # Find the index of the player index to be removed
                     index_to_remove = player_indices.index(player_index)
-                    print(player_index, index_to_remove, player_indices)
+
                     # Remove the player index and shift the rest
                     player_indices.pop(index_to_remove)
                     player_indices = (

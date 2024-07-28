@@ -19,9 +19,21 @@ def read_transfers(file_path):
         csvreader = csv.DictReader(csvfile)
         for row in csvreader:
             player_id = int(row["PlayerID"])
+            player_name = row.get("PlayerName", "")
             from_team_id = int(row["FromTeamID"])
+            from_team_name = row.get("FromTeamName", "")
             to_team_id = int(row["ToTeamID"])
-            transfers.append((player_id, from_team_id, to_team_id))
+            to_team_name = row.get("ToTeamName", "")
+            transfers.append(
+                (
+                    player_id,
+                    player_name,
+                    from_team_id,
+                    from_team_name,
+                    to_team_id,
+                    to_team_name,
+                )
+            )
     return transfers
 
 

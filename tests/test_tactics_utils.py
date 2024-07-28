@@ -23,26 +23,35 @@ class TestTacticsUtils(unittest.TestCase):
 
     def test_update_tactics_for_team(self):
         teams = {
-            1: [22, 1, 14, 3, 5, 9, 8, 7, 11, 19, 10, 6, 23, 16, 20, 13, 4, 18, 12, 15,
-                21, 17, 2, 0, 25, 28, 26, 29, 32, 33, 24, 30, 31, 35, 36, 37, 38, 39, 27, 34],
-            2: [11, 5, 2, 9, 4, 3, 7, 6, 15, 10, 13, 12, 8, 14, 0, 1, 17, 18, 16, 19,
-                21, 20, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39]
+            1: [0, 5, 3, 8, 7, 10, 12, 11, 20, 18, 24, 1, 4, 6, 9, 13, 14, 15, 19, 21, 
+                23, 25, 27, 2, 16, 17, 22, 26, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39],
+            2: [0, 4, 3, 9, 7, 11, 13, 14, 17, 18, 21, 1, 5, 6, 8, 10, 12, 29, 16, 19, 
+                20, 22, 23, 2, 26, 27, 24, 25, 15, 28, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39]
         }
 
         test_file = self.create_test_file(teams)
 
         try:
-            # Test removing player index 19 (value at index 9) from team 1
-            update_tactics_for_team(test_file, 1, 19)
+            # Test removing player index 27 (value at index 22) from team 1
+            update_tactics_for_team(test_file, 1, 27)
+            # Test removing player index 29 (value at index 17) from team 2
+            update_tactics_for_team(test_file, 2, 29)
 
             with open(test_file, 'rb') as f:
-                f.seek(10524800 + 4 + 480)  # Seek to the start of team 1's player indices
-                updated_indices = list(f.read(40))
+                team_1_indices_offset = 10524800 + 4 + 480
+                f.seek(team_1_indices_offset)  # Seek to the start of team 1's player indices
+                updated_indices_1 = list(f.read(40))
+                team_2_indices_offset = 10524800 + 628 + 4 + 480
+                f.seek(team_2_indices_offset)  # Seek to the start of team 2's player indices
+                updated_indices_2 = list(f.read(40))
 
-            expected_indices = [22, 1, 14, 3, 5, 9, 8, 7, 11, 10, 6, 23, 16, 20, 13, 4, 18, 12, 15,
-                                21, 17, 2, 0, 25, 28, 26, 29, 32, 33, 24, 30, 31, 35, 36, 37, 38, 39, 27, 34, 0xFF]
+            expected_indices_1 = [0, 5, 3, 8, 7, 10, 12, 11, 20, 18, 24, 1, 4, 6, 9, 13, 14, 15, 19, 21, 
+                                    23, 25, 2, 16, 17, 22, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39]
+            expected_indices_2 = [0, 4, 3, 9, 7, 11, 13, 14, 17, 18, 21, 1, 5, 6, 8, 10, 12, 16, 19, 20,
+                                    22, 23, 2, 26, 27, 24, 25, 15, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39]
 
-            self.assertEqual(updated_indices, expected_indices)
+            self.assertEqual(updated_indices_1, expected_indices_1)
+            self.assertEqual(updated_indices_2, expected_indices_2)
         finally:
             os.remove(test_file)
 

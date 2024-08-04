@@ -69,20 +69,21 @@ def apply_transfers(binary_file_path, teams_data, transfers, player_names=None):
 
                 new_index = to_team_players.index(0)  # Find the first empty spot
 
-                if player_id != 0 and player_id in from_team_players:
-                    if from_team_id == to_team_id:
+                if player_id != 0:
+                    if from_team_id == to_team_id and player_id in to_team_players:
                         print(
                             f"Player is already in the team. Skipping transfer for player {player_name} ({player_id}). From Team: {from_team_name} ({from_team_id}), To Team: {to_team_name} ({to_team_id})."
                         )
                         continue
 
-                    team_dict[from_team_id] = remove_player_from_team(
-                        binary_file_path,
-                        from_team_id,
-                        from_team_players,
-                        from_team_shirts,
-                        player_id,
-                    )
+                    if player_id in from_team_players:
+                        team_dict[from_team_id] = remove_player_from_team(
+                            binary_file_path,
+                            from_team_id,
+                            from_team_players,
+                            from_team_shirts,
+                            player_id,
+                        )
 
                     team_dict[to_team_id] = add_player_to_team(
                         to_team_id,

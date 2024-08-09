@@ -69,58 +69,20 @@ def apply_transfers(binary_file_path, teams_data, transfers, player_names=None):
 
                 new_index = to_team_players.index(0)  # Find the first empty spot
 
-                if player_id != 0:
-                    if from_team_id == to_team_id and player_id in to_team_players:
-                        print(
-                            f"Player is already in the team. Skipping transfer for player {player_name} ({player_id}). From Team: {from_team_name} ({from_team_id}), To Team: {to_team_name} ({to_team_id})."
-                        )
-                        continue
-
-                    if player_id in from_team_players:
-                        team_dict[from_team_id] = remove_player_from_team(
-                            binary_file_path,
-                            from_team_id,
-                            from_team_players,
-                            from_team_shirts,
-                            player_id,
-                        )
-
-                    team_dict[to_team_id] = add_player_to_team(
-                        to_team_id,
-                        to_team_players,
-                        to_team_shirts,
-                        player_id,
-                        new_index,
-                    )
-
-                    # Log the successful transfer
+                if from_team_id == to_team_id and player_id in to_team_players:
                     print(
-                        f"Transfer successful for player {player_name} ({player_id}). From Team: {from_team_name}({from_team_id}), To Team: {to_team_name} ({to_team_id})."
+                        f"Player is already in the team. Skipping transfer for player {player_name} ({player_id}). From Team: {from_team_name} ({from_team_id}), To Team: {to_team_name} ({to_team_id})."
                     )
+                    continue
 
-            # Transfer from a team to Without Team, Retired or a team that doesn't exist
-            if from_team_id in team_dict and to_team_id not in team_dict:
-                from_team_players, from_team_shirts = team_dict[from_team_id]
-
-                if player_id != 0 and player_id in from_team_players:
-                    remove_player_from_team(
+                if player_id in from_team_players:
+                    team_dict[from_team_id] = remove_player_from_team(
                         binary_file_path,
                         from_team_id,
                         from_team_players,
                         from_team_shirts,
                         player_id,
                     )
-
-                    # Log the successful transfer
-                    print(
-                        f"Transfer successful for player {player_name} ({player_id}). From Team: {from_team_name}({from_team_id}), To Team: {to_team_name} ({to_team_id})."
-                    )
-
-            # Transfer from Without Team or a team that doesn't exist to a team
-            if from_team_id not in team_dict and to_team_id in team_dict:
-                to_team_players, to_team_shirts = team_dict[to_team_id]
-
-                new_index = to_team_players.index(0)  # Find the first empty spot
 
                 team_dict[to_team_id] = add_player_to_team(
                     to_team_id,
@@ -134,6 +96,52 @@ def apply_transfers(binary_file_path, teams_data, transfers, player_names=None):
                 print(
                     f"Transfer successful for player {player_name} ({player_id}). From Team: {from_team_name}({from_team_id}), To Team: {to_team_name} ({to_team_id})."
                 )
+
+            # Transfer from a team to Without Team, Retired or a team that doesn't exist
+            if from_team_id in team_dict and to_team_id not in team_dict:
+                from_team_players, from_team_shirts = team_dict[from_team_id]
+
+                if player_id in from_team_players:
+                    remove_player_from_team(
+                        binary_file_path,
+                        from_team_id,
+                        from_team_players,
+                        from_team_shirts,
+                        player_id,
+                    )
+
+                    # Log the successful transfer
+                    print(
+                        f"Transfer successful for player {player_name} ({player_id}). From Team: {from_team_name}({from_team_id}), To Team: {to_team_name} ({to_team_id})."
+                    )
+                else:
+                    print(
+                        f"Player is not in the team. Skipping transfer for player {player_name} ({player_id}). From Team: {from_team_name} ({from_team_id}), To Team: {to_team_name} ({to_team_id})."
+                    )
+
+            # Transfer from Without Team or a team that doesn't exist to a team
+            if from_team_id not in team_dict and to_team_id in team_dict:
+                to_team_players, to_team_shirts = team_dict[to_team_id]
+
+                new_index = to_team_players.index(0)  # Find the first empty spot
+
+                if player_id not in to_team_players:
+                    team_dict[to_team_id] = add_player_to_team(
+                        to_team_id,
+                        to_team_players,
+                        to_team_shirts,
+                        player_id,
+                        new_index,
+                    )
+
+                    # Log the successful transfer
+                    print(
+                        f"Transfer successful for player {player_name} ({player_id}). From Team: {from_team_name}({from_team_id}), To Team: {to_team_name} ({to_team_id})."
+                    )
+                else:
+                    print(
+                        f"Player is already in the team. Skipping transfer for player {player_name} ({player_id}). From Team: {from_team_name} ({from_team_id}), To Team: {to_team_name} ({to_team_id})."
+                    )
 
         except ValueError:
             # No empty spot in the new team, skip the transfer

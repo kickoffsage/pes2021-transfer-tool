@@ -3,6 +3,7 @@ import shutil
 from src.csv_utils import read_csv_mapping, read_transfers, write_to_csv
 from src.team_utils import read_team_data, write_team_data
 from src.transfer_utils import apply_transfers
+import os
 
 
 def main():
@@ -43,7 +44,17 @@ def main():
 
     team_names = read_csv_mapping(args.team_names_csv)
     player_names = read_csv_mapping(args.player_names_csv)
-    transfers = read_transfers(args.transfers_csv)
+    transfers = None
+    if os.path.isdir(args.transfers_csv):
+        # If it's a directory, read all CSV files in the directory
+        transfers = []
+        for file_name in os.listdir(args.transfers_csv):
+            if file_name.endswith(".csv"):
+                file_path = os.path.join(args.transfers_csv, file_name)
+                transfers.extend(read_transfers(file_path))
+    else:
+        # If it's a single CSV file, read transfers from that file
+        transfers = read_transfers(args.transfers_csv)
 
     teams_data = apply_transfers(
         args.new_binary_file_path, teams_data, transfers, player_names

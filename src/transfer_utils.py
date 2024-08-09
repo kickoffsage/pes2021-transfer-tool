@@ -40,11 +40,19 @@ def add_player_to_team(team_id, players, shirts, player_id, new_index):
     return (players, shirts)
 
 
-def apply_transfers(binary_file_path, teams_data, transfers, player_names=None):
+def apply_transfers(
+    binary_file_path,
+    teams_data,
+    transfers,
+    player_names=None,
+    previous_skipped_transfers=[],
+):
     team_dict = {
         team_id: (team_player_ids, shirt_numbers)
         for team_id, team_player_ids, shirt_numbers in teams_data
     }
+
+    skipped_transfers = []
 
     for (
         player_id,
@@ -144,12 +152,41 @@ def apply_transfers(binary_file_path, teams_data, transfers, player_names=None):
                     )
 
         except ValueError:
-            # No empty spot in the new team, skip the transfer
+            # No empty spot in the new team, store the skipped transfer and try again later
+            skipped_transfers.append(
+                (
+                    player_id,
+                    player_name,
+                    from_team_id,
+                    from_team_name,
+                    to_team_id,
+                    to_team_name,
+                )
+            )
             print(
                 f"No empty spot in the new team. Skipping transfer for player {player_name} ({player_id}). From Team: {from_team_name} ({from_team_id}), To Team: {to_team_name} ({to_team_id})."
             )
 
-    return [
+    modified_teams_data = [
         (team_id, team_player_ids, shirt_numbers)
         for team_id, (team_player_ids, shirt_numbers) in team_dict.items()
     ]
+
+    while skipped_transfers != previous_skipped_transfers:
+        print(
+            f"Retrying {len(skipped_transfers)} skipped transfers (because of no empty spot in new team)."
+        )
+        return apply_transfers(
+            binary_file_path,
+            modified_teams_data,
+            skipped_transfers,
+            player_names,
+            skipped_transfers,
+        )
+
+    if len(skipped_transfers) > 0:
+        print(
+            f"Exhausted retrials to apply {len(skipped_transfers)} skipped transfers (because of no empty spot in new team)."
+        )
+
+    return modified_teams_data

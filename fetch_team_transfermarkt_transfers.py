@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 import csv
 import sys
 from fuzzywuzzy import fuzz
+import os
 
 
 def fetch_html(url):
@@ -134,27 +135,41 @@ def match_data(transfers, players_data, teams_data, confidence_threshold=80):
     return matched_transfers
 
 
-def write_to_csv(transfers, team_name, filename_prefix="dist/by_team/"):
+def write_to_csv(transfers, team_name):
     """Writes the transfer data to a CSV file."""
-    filename = f"{filename_prefix}{team_name}_transfers.csv"
-    with open(filename, "w", newline="", encoding="utf-8") as file:
-        writer = csv.writer(file)
-        writer.writerow(
-            [
-                "TransferDate",
-                "PlayerID",
-                "PlayerName",
-                "PlayerMatchConfidence",
-                "FromTeamID",
-                "FromTeamName",
-                "FromTeamMatchConfidence",
-                "ToTeamID",
-                "ToTeamName",
-                "ToTeamMatchConfidence",
-            ]
-        )
-        writer.writerows(transfers)
-    print(f"Data has been written to {filename}")
+    # Get the directory of the current script
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    # Create a 'dist' directory in the same folder as the script
+    dist_dir = os.path.join(script_dir, "dist")
+    os.makedirs(dist_dir, exist_ok=True)
+
+    filename = f"{team_name}_transfers.csv"
+    full_path = os.path.join(dist_dir, filename)
+
+    try:
+        with open(full_path, "w", newline="", encoding="utf-8") as file:
+            writer = csv.writer(file)
+            writer.writerow(
+                [
+                    "TransferDate",
+                    "PlayerID",
+                    "PlayerName",
+                    "PlayerMatchConfidence",
+                    "FromTeamID",
+                    "FromTeamName",
+                    "FromTeamMatchConfidence",
+                    "ToTeamID",
+                    "ToTeamName",
+                    "ToTeamMatchConfidence",
+                ]
+            )
+            writer.writerows(transfers)
+        print(f"Data has been written to {filename}")
+    except Exception as e:
+        print(f"Error writing to file: {e}")
+        print(f"Current working directory: {os.getcwd()}")
+        print(f"Script directory: {script_dir}")
+        print(f"Dist directory: {dist_dir}")
 
 
 def read_input_csv(filename):
@@ -189,14 +204,19 @@ def main(team_name, players_csv, teams_csv, confidence_threshold=80):
 if __name__ == "__main__":
     if len(sys.argv) < 4 or len(sys.argv) > 5:
         print(
-            "Usage: python fetch_team_transfers.py <team_name> <players_csv> <teams_csv> [confidence_threshold]"
+            "Usage: python fetch_team_transfermarkt_transfers.py <team_name> <players_csv> <teams_csv> [confidence_threshold]"
+        )
+        print("Optional parameters:")
+        print(
+            "  [confidence_threshold]: Integer (default 80). Minimum confidence level for matching."
+        )
+        print("\nExample:")
+        print(
+            "  python fetch_team_transfermarkt_transfers.py 'Manchester United' players.csv teams.csv 85"
         )
     else:
         team_name = sys.argv[1]
         players_csv = sys.argv[2]
         teams_csv = sys.argv[3]
         confidence_threshold = int(sys.argv[4]) if len(sys.argv) == 5 else 80
-        teams_data = read_input_csv(teams_csv)
-        for team in teams_data:
-            team_name = team["TeamName"]
-            main(team_name, players_csv, teams_csv, confidence_threshold)
+        main(team_name, players_csv, teams_csv, confidence_threshold)

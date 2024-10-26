@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 import csv
 import sys
 from fuzzywuzzy import fuzz
+import os
 
 
 def fetch_transfermarkt_page(url):
@@ -122,32 +123,46 @@ def match_data(transfers, players_data, teams_data, confidence_threshold=80):
     return matched_transfers
 
 
-def write_to_csv(transfers, filename="dist/latest_transfermarkt_transfers.csv"):
+def write_to_csv(transfers, filename="latest_transfermarkt_transfers.csv"):
     """Writes the transfer data to a CSV file."""
-    with open(filename, "w", newline="", encoding="utf-8") as file:
-        writer = csv.writer(file)
-        writer.writerow(
-            [
-                "TransferDate",
-                "PlayerID",
-                "PlayerName",
-                "PlayerMatchConfidence",
-                "FromTeamID",
-                "FromTeamName",
-                "FromTeamMatchConfidence",
-                "ToTeamID",
-                "ToTeamName",
-                "ToTeamMatchConfidence",
-            ]
-        )
-        writer.writerows(transfers)
-    print(f"Data has been written to {filename}")
+    # Get the directory of the current script
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    # Create a 'dist' directory in the same folder as the script
+    dist_dir = os.path.join(script_dir, "dist")
+    os.makedirs(dist_dir, exist_ok=True)
+
+    # Create the full path for the output file
+    full_path = os.path.join(dist_dir, filename)
+
+    print(f"Attempting to write to file: {full_path}")
+
+    try:
+        with open(full_path, "w", newline="", encoding="utf-8") as file:
+            writer = csv.writer(file)
+            writer.writerow(
+                [
+                    "TransferDate",
+                    "PlayerID",
+                    "PlayerName",
+                    "PlayerMatchConfidence",
+                    "FromTeamID",
+                    "FromTeamName",
+                    "FromTeamMatchConfidence",
+                    "ToTeamID",
+                    "ToTeamName",
+                    "ToTeamMatchConfidence",
+                ]
+            )
+            writer.writerows(transfers)
+        print(f"Data has been written to {full_path}")
+    except Exception as e:
+        print(f"Error writing to file: {e}")
+        print(f"Current working directory: {os.getcwd()}")
+        print(f"Script directory: {script_dir}")
+        print(f"Dist directory: {dist_dir}")
 
 
-def main(players_csv, teams_csv, confidence_threshold=80):
-    # League ID to filter transfers
-    league = "GB1"  # English Premier League
-
+def main(players_csv, teams_csv, confidence_threshold=80, league="GB1"):
     # Base URL of the Transfermarkt page to scrape
     base_url = (
         "https://www.transfermarkt.com/transfers/neuestetransfers/statistik/plus/?plus=1&galerie=0&wettbewerb_id=%s&land_id=&selectedOptionInternalType=nothingSelected&minMarktwert=0&maxMarktwert=500.000.000&minAbloese=0&maxAbloese=500.000.000&yt0=Show"
@@ -177,10 +192,22 @@ def main(players_csv, teams_csv, confidence_threshold=80):
 if __name__ == "__main__":
     if len(sys.argv) < 3 or len(sys.argv) > 4:
         print(
-            "Usage: python fetch_latest_transfermarkt_transfers.py <players_csv> <teams_csv> [confidence_threshold]"
+            "Usage: python fetch_latest_transfermarkt_transfers.py <players_csv> <teams_csv> [confidence_threshold] [league]"
+        )
+        print("Optional parameters:")
+        print(
+            "  [confidence_threshold]: Integer (default 80). Minimum confidence level for matching."
+        )
+        print(
+            "  [league]: String (default 'GB1' for English Premier League). League ID for transfers."
+        )
+        print("\nExample:")
+        print(
+            "  python fetch_latest_transfermarkt_transfers.py players.csv teams.csv 85 ES1"
         )
     else:
         players_csv = sys.argv[1]
         teams_csv = sys.argv[2]
         confidence_threshold = int(sys.argv[3]) if len(sys.argv) == 4 else 80
-        main(players_csv, teams_csv, confidence_threshold)
+        league = sys.argv[4] if len(sys.argv) > 4 else "GB1"  # English Premier League
+        main(players_csv, teams_csv, confidence_threshold, league)

@@ -1,3 +1,27 @@
+[tool.poetry]
+name = "pes2021-transfer-tools"
+version = "0.1.0"
+description = ""
+authors = ["Kickoff Sage <181129513+kickoffsage@users.noreply.github.com>"]
+readme = "README.md"
+packages = [{include = "pes2021_transfer_tools", from = "src"}]
+
+[tool.poetry.dependencies]
+python = "^3.13"
+beautifulsoup4 = "^4.12.3"
+fuzzywuzzy = "^0.18.0"
+requests = "^2.32.3"
+python-levenshtein = "^0.26.0"
+
+[tool.poetry.group.test.dependencies]
+pytest = "^8.3.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+
 [tool.black]
 line-length = 88
 target-version = ['py36', 'py37', 'py38', 'py39']

@@ -146,6 +146,8 @@ def write_to_csv(transfers, team_name):
     filename = f"{team_name}_transfers.csv"
     full_path = os.path.join(dist_dir, filename)
 
+    print(f"Attempting to write to file: {full_path}")
+
     try:
         with open(full_path, "w", newline="", encoding="utf-8") as file:
             writer = csv.writer(file)

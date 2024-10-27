@@ -44,7 +44,7 @@ def apply_transfers(
     binary_file_path,
     teams_data,
     transfers,
-    player_names=None,
+    player_names={},
     previous_skipped_transfers=[],
 ):
     team_dict = {

@@ -183,13 +183,30 @@ class TestTransferUtils(unittest.TestCase):
         ]
 
         transfers = [
-            (102, 1, 2),  # Move player 102 from team 1 to team 2
-            (216, 2, 1),  # Move player 216 from team 2 to team 1
+            (
+                102,
+                "John Doe",
+                1,
+                "Team A",
+                2,
+                "Team B",
+            ),  # Move player 102 from team 1 to team 2
+            (
+                216,
+                "Jane Smith",
+                2,
+                "Team B",
+                1,
+                "Team A",
+            ),  # Move player 216 from team 2 to team 1
         ]
 
         with patch("src.transfer_utils.update_tactics_for_team"):
             updated_teams_data = apply_transfers(
-                "path/to/binary", teams_data, transfers
+                "path/to/binary",
+                teams_data,
+                transfers,
+                player_names={102: "John Doe", 216: "Jane Smith"},
             )
 
         # Check team 1 updated data

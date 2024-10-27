@@ -4,7 +4,7 @@ version = "0.1.0"
 description = ""
 authors = ["Kickoff Sage <181129513+kickoffsage@users.noreply.github.com>"]
 readme = "README.md"
-packages = [{include = "pes2021_transfer_tools", from = "src"}]
+packages = [{include = "*", from = "src"}]
 
 [tool.poetry.dependencies]
 python = "^3.13"

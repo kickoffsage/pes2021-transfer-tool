@@ -5,13 +5,13 @@ description = ""
 authors = ["Kickoff Sage <181129513+kickoffsage@users.noreply.github.com>"]
 readme = "README.md"
 packages = [{include = "*", from = "src"}]
+license = "MIT"
 
 [tool.poetry.dependencies]
 python = "^3.13"
 beautifulsoup4 = "^4.12.3"
-fuzzywuzzy = "^0.18.0"
 requests = "^2.32.3"
-python-levenshtein = "^0.26.0"
+rapidfuzz = "^3.10.1"
 
 [tool.poetry.group.test.dependencies]
 pytest = "^8.3.3"

@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import csv
 import sys
-from fuzzywuzzy import fuzz
+from rapidfuzz import fuzz, process
 import os
 
 
@@ -23,17 +23,18 @@ def search_team(team_name):
     soup = BeautifulSoup(html_content, "html.parser")
     search_results = soup.select("a[href*='startseite/verein/']")
 
-    best_match = None
-    highest_ratio = 0
-    for result in search_results:
-        result_name = result.text.strip()
-        ratio = fuzz.token_sort_ratio(team_name, result_name)
-        if ratio > highest_ratio:
-            highest_ratio = ratio
-            best_match = result
+    if not search_results:
+        return None, None
+
+    # Extract text from search results
+    team_names = [result.text.strip() for result in search_results]
+
+    best_match = process.extractOne(team_name, team_names, scorer=fuzz.ratio)
 
     if best_match:
-        href_parts = best_match["href"].split("/")
+        index = team_names.index(best_match[0])
+        result = search_results[index]
+        href_parts = result["href"].split("/")
         team_slug = href_parts[1]
         team_id = href_parts[-1]
         return team_slug, team_id
@@ -69,14 +70,8 @@ def parse_transfers(html, team_name):
 
 def get_best_match(query, choices):
     """Finds the best match for a query string within a list of choices and returns the match and the confidence score."""
-    best_match = None
-    highest_ratio = 0
-    for choice in choices:
-        ratio = fuzz.token_sort_ratio(query, choice)
-        if ratio > highest_ratio:
-            highest_ratio = ratio
-            best_match = choice
-    return best_match, highest_ratio
+    best_match = process.extractOne(query, choices, scorer=fuzz.ratio)
+    return best_match[0], best_match[1] if best_match else (None, 0)
 
 
 def match_data(transfers, players_data, teams_data, confidence_threshold=80):
@@ -206,7 +201,7 @@ def main(team_name, players_csv, teams_csv, confidence_threshold=80):
 if __name__ == "__main__":
     if len(sys.argv) < 4 or len(sys.argv) > 5:
         print(
-            "Usage: python fetch_team_transfermarkt_transfers.py <team_name> <players_csv> <teams_csv> [confidence_threshold]"
+            "Usage: python fetch_team_transfers.py <team_name> <players_csv> <teams_csv> [confidence_threshold]"
         )
         print("Optional parameters:")
         print(
@@ -214,7 +209,7 @@ if __name__ == "__main__":
         )
         print("\nExample:")
         print(
-            "  python fetch_team_transfermarkt_transfers.py 'Manchester United' players.csv teams.csv 85"
+            "  python fetch_team_transfers.py 'Manchester United' players.csv teams.csv 85"
         )
     else:
         team_name = sys.argv[1]

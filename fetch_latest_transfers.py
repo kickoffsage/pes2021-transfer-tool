@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import csv
 import sys
-from fuzzywuzzy import fuzz
+from rapidfuzz import fuzz, process
 import os
 
 
@@ -57,14 +57,8 @@ def read_input_csv(filename):
 
 def get_best_match(query, choices):
     """Finds the best match for a query string within a list of choices and returns the match and the confidence score."""
-    best_match = None
-    highest_ratio = 0
-    for choice in choices:
-        ratio = fuzz.token_sort_ratio(query, choice)
-        if ratio > highest_ratio:
-            highest_ratio = ratio
-            best_match = choice
-    return best_match, highest_ratio
+    best_match = process.extractOne(query, choices, scorer=fuzz.ratio)
+    return best_match[0], best_match[1] if best_match else (None, 0)
 
 
 def match_data(transfers, players_data, teams_data, confidence_threshold=80):

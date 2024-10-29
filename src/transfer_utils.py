@@ -1,4 +1,4 @@
-from src.tactics_utils import update_tactics_for_team
+from tactics_utils import update_tactics_for_team
 
 
 def replace_with_last_non_zero(players, shirts, index):

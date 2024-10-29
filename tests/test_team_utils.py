@@ -1,8 +1,9 @@
-import unittest
+import os
 import struct
 import tempfile
-import os
-from src.team_utils import read_team_data
+import unittest
+
+from team_utils import read_team_data
 
 
 class TestTeamUtils(unittest.TestCase):

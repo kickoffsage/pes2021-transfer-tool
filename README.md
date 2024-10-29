@@ -40,17 +40,11 @@ To run and develop this project, you'll need:
    poetry install
    ```
 
-## Preparing the Save File
+## Save File Decryption and Encryption
 
-Before using this tool, you need to decrypt your PES 2021 save file. The save file is typically encrypted, and our tool works with the decrypted version. To decrypt your save file:
+This tool uses `pesXdecrypter` to handle encrypted save files. 
 
-1. Download the PES Save Decrypter tool from [https://github.com/the4chancup/pesXdecrypter/tree/master](https://github.com/the4chancup/pesXdecrypter/tree/master)
-
-2. Follow the instructions provided in the PES Save Decrypter repository to decrypt your save file.
-
-3. Once decrypted, you can use the resulting file with our PES 2021 Transfer Tool.
-
-Please note that after applying transfers and making changes, you may need to re-encrypt the save file before using it in the game. Refer to the PES Save Decrypter documentation for instructions on how to encrypt the file.
+Compiled binaries for `pesXdecrypter_2021` are included in the vendor directory of this project for convenience, but please note that it maintains its original license separate from this project's license. Refer to the `pesXdecrypter` repository for its specific licensing terms and usage instructions. You can find it at [https://github.com/the4chancup/pesXdecrypter](https://github.com/the4chancup/pesXdecrypter).
 
 ## Running the Tool
 

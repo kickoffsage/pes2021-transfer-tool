@@ -1,9 +1,11 @@
 import argparse
-import shutil
-from src.csv_utils import read_csv_mapping, read_transfers, write_to_csv
-from src.team_utils import read_team_data, write_team_data
-from src.transfer_utils import apply_transfers
 import os
+import subprocess
+
+from crypt_utils import decrypt_save_file, encrypt_save_file
+from csv_utils import read_csv_mapping, read_transfers, write_to_csv
+from team_utils import read_team_data, write_team_data
+from transfer_utils import apply_transfers
 
 
 def main():
@@ -11,10 +13,10 @@ def main():
         description="Apply transfers to binary file and output the updated team and player data."
     )
     parser.add_argument(
-        "original_binary_file_path", type=str, help="Path to the original binary file."
+        "original_save_file_path", type=str, help="Path to the original save file."
     )
     parser.add_argument(
-        "new_binary_file_path", type=str, help="Path to the new binary file."
+        "new_save_file_path", type=str, help="Path to the new save file."
     )
     parser.add_argument(
         "csv_output_path", type=str, help="Path to the output CSV file after transfers."
@@ -36,10 +38,16 @@ def main():
     team_entries_start_offset = 10307144
     team_entries_end_offset = 10520143
 
-    shutil.copyfile(args.original_binary_file_path, args.new_binary_file_path)
+    try:
+        temp_binary_folder_path, temp_binary_file_path = decrypt_save_file(
+            args.original_save_file_path
+        )
+    except (subprocess.CalledProcessError, FileNotFoundError) as e:
+        print(f"Error decrypting save file: {e}")
+        exit(1)
 
     teams_data = read_team_data(
-        args.new_binary_file_path, team_entries_start_offset, team_entries_end_offset
+        temp_binary_file_path, team_entries_start_offset, team_entries_end_offset
     )
 
     team_names = read_csv_mapping(args.team_names_csv)
@@ -57,12 +65,14 @@ def main():
         transfers = read_transfers(args.transfers_csv)
 
     teams_data = apply_transfers(
-        args.new_binary_file_path, teams_data, transfers, player_names
+        temp_binary_file_path, teams_data, transfers, player_names
     )
 
     write_to_csv(args.csv_output_path, teams_data, team_names, player_names)
 
-    write_team_data(args.new_binary_file_path, teams_data, team_entries_start_offset)
+    write_team_data(temp_binary_file_path, teams_data, team_entries_start_offset)
+
+    encrypt_save_file(temp_binary_folder_path, args.new_save_file_path)
 
 
 if __name__ == "__main__":

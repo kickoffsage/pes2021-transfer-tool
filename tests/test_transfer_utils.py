@@ -1,6 +1,7 @@
 import unittest
 from unittest.mock import patch
-from src.transfer_utils import apply_transfers
+
+from transfer_utils import apply_transfers
 
 
 class TestTransferUtils(unittest.TestCase):

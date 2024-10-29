@@ -1,9 +1,10 @@
+import csv
+import os
+import sys
+
 import requests
 from bs4 import BeautifulSoup
-import csv
-import sys
 from rapidfuzz import fuzz, process
-import os
 
 
 def fetch_html(url):

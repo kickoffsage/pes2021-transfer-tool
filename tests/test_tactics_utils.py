@@ -1,8 +1,9 @@
-import unittest
+import os
 import struct
 import tempfile
-import os
-from src.tactics_utils import update_tactics_for_team
+import unittest
+
+from tactics_utils import update_tactics_for_team
 
 
 class TestTacticsUtils(unittest.TestCase):

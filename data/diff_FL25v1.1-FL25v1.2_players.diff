@@ -1,0 +1,358 @@
+diff --git a/data/FL25v1.1_players.csv b/data/FL25v1.2_players.csv
+index e17e8c9..15df849 100644
+--- a/data/FL25v1.1_players.csv
++++ b/data/FL25v1.2_players.csv
+@@ -443,7 +443,7 @@ PlayerID,PlayerName
+ 17034,K. Ama Tchoutchoui
+ 17038,Adewale Olufade
+ 17068,Sidi Sané
+-17069,Samed Bazdar
++17069,Samed
+ 17099,Oscar Gloukh
+ 17195,Kiran Chemjong
+ 17196,Bishal Shrestha
+@@ -4515,7 +4515,7 @@ PlayerID,PlayerName
+ 90531,Nelson Weiper
+ 90533,Jin Shunkai
+ 90534,Justin Cuero
+-90535,Leart Paçarada
++90535,Leart
+ 90536,A. Bernhardsson
+ 90537,Roni Hudd
+ 90538,Saeed Al Basisi
+@@ -4726,7 +4726,9 @@ PlayerID,PlayerName
+ 90890,Kouassivi Benissan
+ 90899,Mehdi Loune
+ 90900,Naif Al Mas
++90901,Wassim Karoui
+ 90902,Marcel Wenig
++90903,Hamza Jelassi
+ 90905,Guille Bueno
+ 90906,Santeri Hostikka
+ 90910,Kacper Tobiasz
+@@ -6904,6 +6906,7 @@ PlayerID,PlayerName
+ 107804,Jordan Morris
+ 107809,Harold Preciado
+ 107813,Theo Valls
++107814,Ricardo Goss
+ 107821,Lukáš Haraslín
+ 107833,Christopher Ibayi
+ 107835,Israel Alba
+@@ -7297,6 +7300,7 @@ PlayerID,PlayerName
+ 109547,Max O’Leary
+ 109551,Dael Fry
+ 109552,Josh Ginnelly
++109553,Ibrahim Blati Touré
+ 109554,Rey Manaj
+ 109555,Emmanuel Ntim
+ 109559,Alessio Da Cruz
+@@ -7933,6 +7937,7 @@ PlayerID,PlayerName
+ 112130,Sibusiso Phiri
+ 112132,Mike Katiba
+ 112133,Misheck Chaila
++112136,Benson Sakala
+ 112137,Patson Daka
+ 112142,M. Al Akbari
+ 112144,Somporn Yos
+@@ -8957,6 +8962,7 @@ PlayerID,PlayerName
+ 116109,Issouf Paro
+ 116111,Adama Sawadogo
+ 116112,Yacouba Coulibal
++116113,Stephane Aziz Ki
+ 116114,Dylan Ouédraogo
+ 116117,Jesús Gallardo
+ 116120,Sofiane Hanni
+@@ -9483,7 +9489,7 @@ PlayerID,PlayerName
+ 118276,Petko Hristov
+ 118281,Daniel Loader
+ 118282,Marcelo Ortiz
+-118298,D. Emmanouilidis
++118298,Dimitris Emmanouilidis
+ 118302,Niclas Eliasson
+ 118304,A. Paschalakis
+ 118306,Ilias Chair
+@@ -10983,6 +10989,7 @@ PlayerID,PlayerName
+ 123999,Cameron Puertas
+ 124002,Ilker Karakaş
+ 124006,Mickel Miller
++124010,Trova Boni
+ 124011,Abou Ouattara
+ 124026,Morten Frendrup
+ 124029,Artem Dovbyk
+@@ -11166,7 +11173,7 @@ PlayerID,PlayerName
+ 125036,Moon Seon-Min
+ 125038,Nemanja Radonjić
+ 125039,Duje Ćaleta-Car
+-125040,Mohamed Hamdi
++125040,Mohamed El Wensh
+ 125043,Sebastián Pereira
+ 125045,Alejandro Henríquez
+ 125050,Haissem Hassan
+@@ -13082,6 +13089,7 @@ PlayerID,PlayerName
+ 132194,Roko Baturina
+ 132199,César Augusto
+ 132201,Mats Köhlert
++132206,Frankie Musonda
+ 132214,Jann-Fiete Arp
+ 132216,Joshua Zirkzee
+ 132219,Zvonimir Šarlija
+@@ -14433,8 +14441,8 @@ PlayerID,PlayerName
+ 136895,S. Matveychik
+ 136896,Josh Sargent
+ 136897,Jahshaun Anglin
+-136898,Ben Traoré
+-136899,Farid Ouédraogo
++136898,Farid Ouédraogo
++136899,Ben Troure
+ 136900,Soumaila Ouattara
+ 136901,Dramane Nikièma
+ 136902,Sékouba Camara
+@@ -16856,6 +16864,7 @@ PlayerID,PlayerName
+ 145573,Edwin Rodríguez
+ 145574,Jiovany Ramos
+ 145576,Santiago Ormeño
++145577,Tandi Mwape
+ 145580,Kelvin Kapumbu
+ 145582,Ali Jasim
+ 145584,Tarik Boschetti
+@@ -17048,6 +17057,7 @@ PlayerID,PlayerName
+ 146329,Davit Terteryan
+ 146333,Darius Olaru
+ 146334,Deian Sorescu
++146341,Nkosinathi Sibisi
+ 146344,Bongokuhle Hlongwane
+ 146346,Igor Vekič
+ 146348,Žan Zaletel
+@@ -17082,6 +17092,7 @@ PlayerID,PlayerName
+ 146436,Rashed Al Dosary
+ 146445,Dominik Yankov
+ 146450,Nasser Djiga
++146451,Dramane Salou
+ 146457,Raziel García
+ 146460,Sam McClelland
+ 146461,Conor Bradley
+@@ -17345,6 +17356,7 @@ PlayerID,PlayerName
+ 147204,Elvis Kabashi
+ 147211,Edoardo Pierozzi
+ 147214,Alex Mitchell
++147222,Kacper Łopata
+ 147223,Kristoffer Klaesson
+ 147228,Bilal Brahimi
+ 147229,Nico Serrano
+@@ -17760,6 +17772,7 @@ PlayerID,PlayerName
+ 148151,Zsolt Nagy
+ 148152,Abdulla Abdullaev
+ 148153,Andri Gudjohnsen
++148155,Nyiko Mobbie
+ 148156,Stanislav Buchnev
+ 148157,Byron Castillo
+ 148158,Moisés Ramírez
+@@ -17805,6 +17818,7 @@ PlayerID,PlayerName
+ 148492,Joaquín Rivas
+ 148503,Kevin Saucedo
+ 148549,Noah Cobb
++148550,Matthew Edwards
+ 148557,Ajani Fortune
+ 148565,Matías Benítez
+ 148570,Caleb Wiley
+@@ -19072,6 +19086,7 @@ PlayerID,PlayerName
+ 154911,Dara Costelloe
+ 154918,Kevin López
+ 154920,Yannis Nahounou
++154922,Miliano Jonathans
+ 154923,Noah Sadiki
+ 154924,Abakar Sylla
+ 154925,Tunahan Taşçı
+@@ -19191,6 +19206,7 @@ PlayerID,PlayerName
+ 155536,Francisco Bonfiglio
+ 155550,Maung Maung Lwin
+ 155576,Alper Efe Pazar
++155606,Kilian Nikièma
+ 155608,Rafael Struick
+ 155610,Amir Hosseinzadeh
+ 155611,Dolvan Mahdi
+@@ -19330,6 +19346,7 @@ PlayerID,PlayerName
+ 156799,Patricio Pizarro
+ 156801,Matías Alvarado
+ 156806,Weliton Santos
++156808,Thijs Kraaijeveld
+ 156811,Mayckel Lahdo
+ 156817,Anton Kade
+ 156819,Frank Castañeda
+@@ -21398,6 +21415,7 @@ PlayerID,PlayerName
+ 164684,Miguel Salgado
+ 164686,Cláudio Araújo
+ 164687,Peixinho
++164688,Callum Penman
+ 164689,Isaac Romero
+ 164690,Noha Lemina
+ 164691,Mathieu Patouillet
+@@ -22280,6 +22298,7 @@ PlayerID,PlayerName
+ 167251,Martin Vetkal
+ 167253,Rayan El Bahri
+ 167254,Ismail Bouneb
++167256,Elijah Campbell
+ 167258,Max Alleyne
+ 167262,Tomas Pondeca
+ 167263,Josh Cohen
+@@ -22390,6 +22409,7 @@ PlayerID,PlayerName
+ 167688,Mohamed Souboul
+ 167689,Ciro Borrelli
+ 167690,Giuseppe Mazzaglia
++167691,Renato Bellucci
+ 167693,Sha'mar Lawson
+ 167694,George Walker
+ 167695,Alan Medina
+@@ -22432,6 +22452,7 @@ PlayerID,PlayerName
+ 167751,Daniel Håkans
+ 167752,Mehdi Benabid
+ 167753,Nino Žugelj
++167754,Mohamed Hamdy
+ 167756,Carlos Roca
+ 167757,Héctor Cuellar
+ 167760,Elison Rivas
+@@ -22442,6 +22463,10 @@ PlayerID,PlayerName
+ 167787,Alejandro Bran
+ 167795,Andrian Kraev
+ 167798,Hakon Valdimarsson
++167802,Khuliso Mudau
++167804,Jayden Adams
++167805,Elias Mokwana
++167806,Oswin Appollis
+ 167810,Dujuan Richards
+ 167811,Aidan Coyne
+ 167839,James Beadle
+@@ -22955,6 +22980,7 @@ PlayerID,PlayerName
+ 169665,Abdoul Koné
+ 169667,Ibrahim Traoré
+ 169668,Luca Stephenson
++169671,Fletcher Boyd
+ 169673,Angelo Marchese
+ 169675,Miguel Menino
+ 169682,João Rêgo
+@@ -22972,6 +22998,7 @@ PlayerID,PlayerName
+ 169778,Kristall Ingason
+ 169780,Simon Wæver
+ 169781,Benjamin Rasmussen
++169782,Owen Stirton
+ 169791,Vincent Kany
+ 169792,Rayane Doucouré
+ 169795,Íker Punzano
+@@ -23058,8 +23085,11 @@ PlayerID,PlayerName
+ 170255,Cherrion Valerius
+ 170257,Lars Mol
+ 170259,Daniel Bielica
++170264,Bertil Grønkjær
++170265,Valdemar Møller
+ 170266,Kasper Davidsen
+ 170267,Nóel Atli Arnórsson
++170268,Malthe Kjølby
+ 170269,Mads Bomholt
+ 170270,Amar Diagne
+ 170273,Tunahan Akpınar
+@@ -23088,6 +23118,8 @@ PlayerID,PlayerName
+ 170449,Amos Nondi
+ 170450,Masoud Juma
+ 170452,Ty Sa
++170454,Gift Prosper Mphande
++170456,Iqraam Rayners
+ 170465,Jésah Ayessa
+ 170467,Gavin Molloy
+ 170469,Olaf Kobacki
+@@ -23140,6 +23172,7 @@ PlayerID,PlayerName
+ 170608,Yacine Titraoui
+ 170610,Augustine Boakye
+ 170611,Aaron Essel
++170612,Issaka Seidu
+ 170614,Malick Yalcouyé
+ 170615,Elyess Dao
+ 170616,Saad El Haddad
+@@ -23166,6 +23199,7 @@ PlayerID,PlayerName
+ 170669,Jirí Letáček
+ 170671,Christian Østergaard
+ 170672,Benjamin Clemmensen
++170676,Jack Fletcher
+ 170679,Macaulay Langstaff
+ 170680,Max Dean
+ 170681,Ovie Ejeheri
+@@ -23196,6 +23230,7 @@ PlayerID,PlayerName
+ 170795,Yunus Emre Atakaya
+ 170801,Marin Šotiček
+ 170803,Richmond Gyamfi
++170804,Caleb Yirenkyi
+ 170805,Amin Chiakha
+ 170806,Kevin Salazar
+ 170808,Rodrigo Sayavedra
+@@ -23205,6 +23240,7 @@ PlayerID,PlayerName
+ 170818,Luka Fuster
+ 170821,Mads Freundlich
+ 170825,Mattia Liberali
++170828,Samed Baždar
+ 170830,Omar Mohamedhoesein
+ 170833,Mert Bayram
+ 170834,Gabriel Otegbayo
+@@ -23231,6 +23267,7 @@ PlayerID,PlayerName
+ 170900,Tom Akpakoun
+ 170901,Sankhoun Diawara
+ 170902,Tarek Issaoui
++170909,Ben Brannan
+ 170910,Felix Bacher
+ 170911,Pedro Carvalho
+ 170914,Roland Idowu
+@@ -23240,6 +23277,7 @@ PlayerID,PlayerName
+ 170926,João Barros
+ 170927,Alexandre Marques
+ 170930,Josh Nichols
++170933,Alexei Rojas
+ 170945,Victor Orakpo
+ 170947,Pape Sy
+ 170948,Dayann Methalie
+@@ -23279,6 +23317,8 @@ PlayerID,PlayerName
+ 171560,Ibrahim Kanté
+ 171568,Rivaldo Morais
+ 171580,W. Sonne-Schmidt
++171582,Ethan Mersey
++171583,Ruari Ellis
+ 171587,Kay Tejan
+ 171590,João Vasconcelos
+ 171591,Godfrey Stephen
+@@ -23322,6 +23362,7 @@ PlayerID,PlayerName
+ 172010,Jhoan Montoya
+ 172012,Igor Miladinovic
+ 172013,Glenn Ngosso
++172014,Alfie Stewart
+ 172015,Topi Keskinen
+ 172021,Honest Ahanor
+ 172022,Jeff Ekhator
+@@ -23444,6 +23485,7 @@ PlayerID,PlayerName
+ 172317,Jorge Salinas
+ 172318,Marco Carrascal
+ 172320,Victor Mayela
++172322,Francis Turley
+ 172327,Sam Chambers
+ 172328,Franco Nicola
+ 172329,João Mendes
+@@ -23572,6 +23614,7 @@ PlayerID,PlayerName
+ 172632,Bradley Moonan
+ 172633,Endris Scaramelli
+ 172634,Niccolò Postiglione
++172635,Colby Donovan
+ 172639,Kaïs Benabdelouahed
+ 173010,Íker García
+ 173019,Niama Sissoko
+@@ -23587,10 +23630,15 @@ PlayerID,PlayerName
+ 173036,Aidan Borland
+ 173037,Jamaldeen Jimoh
+ 173043,Jan Faberski
++173047,Ramiro Pedroza
++173048,Fabricio López
+ 173049,Owen Bosch
+ 173050,Freddie Turley
+ 173052,Damola Ajayi
+ 173053,Danté Cassanova
++173055,Rodrigo Cavallera
++173056,Adam Claridge
++173057,Zyed Beltaief
+ 173058,Craig Mamilo
+ 173060,Sékou Doucouré
+ 173061,Luís Gomes

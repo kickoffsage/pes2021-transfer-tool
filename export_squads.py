@@ -1,6 +1,6 @@
 import argparse
 import subprocess
-from team_utils import read_team_data
+from team_utils import read_team_data, read_team_id_and_name
 from csv_utils import read_csv_mapping, write_to_csv
 from crypt_utils import decrypt_save_file
 
@@ -14,9 +14,6 @@ def main():
         "csv_output_path", type=str, help="Path to the output CSV file."
     )
     parser.add_argument(
-        "team_names_csv", type=str, help="Path to the CSV file containing team names."
-    )
-    parser.add_argument(
         "player_names_csv",
         type=str,
         help="Path to the CSV file containing player names.",
@@ -26,6 +23,9 @@ def main():
 
     team_entries_start_offset = 10307144
     team_entries_end_offset = 10520143
+
+    teams_start_offset = 0x8ED2FC
+    teams_end_offset = 0x958DA3
 
     try:
         _, temp_binary_file_path = decrypt_save_file(args.save_file_path)
@@ -37,7 +37,9 @@ def main():
         temp_binary_file_path, team_entries_start_offset, team_entries_end_offset
     )
 
-    team_names = read_csv_mapping(args.team_names_csv)
+    team_names = read_team_id_and_name(
+        temp_binary_file_path, teams_start_offset, teams_end_offset
+    )
     player_names = read_csv_mapping(args.player_names_csv)
 
     write_to_csv(args.csv_output_path, teams_data, team_names, player_names)

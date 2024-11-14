@@ -4,7 +4,7 @@ import subprocess
 
 from crypt_utils import decrypt_save_file, encrypt_save_file
 from csv_utils import read_csv_mapping, read_transfers, write_to_csv
-from team_utils import read_team_data, write_team_data
+from team_utils import read_team_data, read_team_id_and_name, write_team_data
 from transfer_utils import apply_transfers
 
 
@@ -22,9 +22,6 @@ def main():
         "csv_output_path", type=str, help="Path to the output CSV file after transfers."
     )
     parser.add_argument(
-        "team_names_csv", type=str, help="Path to the CSV file containing team names."
-    )
-    parser.add_argument(
         "player_names_csv",
         type=str,
         help="Path to the CSV file containing player names.",
@@ -38,6 +35,9 @@ def main():
     team_entries_start_offset = 10307144
     team_entries_end_offset = 10520143
 
+    teams_start_offset = 0x8ED2FC
+    teams_end_offset = 0x958DA3
+
     try:
         temp_binary_folder_path, temp_binary_file_path = decrypt_save_file(
             args.original_save_file_path
@@ -50,7 +50,9 @@ def main():
         temp_binary_file_path, team_entries_start_offset, team_entries_end_offset
     )
 
-    team_names = read_csv_mapping(args.team_names_csv)
+    team_names = read_team_id_and_name(
+        temp_binary_file_path, teams_start_offset, teams_end_offset
+    )
     player_names = read_csv_mapping(args.player_names_csv)
     transfers = None
     if os.path.isdir(args.transfers_csv):

@@ -1,6 +1,39 @@
 import struct
 
 
+def read_team_id_and_name(
+    binary_file_path, team_entry_start_offset, team_entries_end_offset
+):
+    teams_data = {}
+
+    with open(binary_file_path, "rb") as f:
+        f.seek(team_entry_start_offset)
+
+        while f.tell() < team_entries_end_offset:
+            # Read the next 4 bytes for teamID in little-endian format
+            team_id_bytes = f.read(4)
+            if len(team_id_bytes) < 4:
+                break
+            team_id = struct.unpack("<I", team_id_bytes)[0]
+
+            # Seek to team name offset
+            f.seek(100, 1)
+
+            # Read the next 70 bytes for team name
+            team_name_bytes = f.read(70)
+            try:
+                team_name = team_name_bytes.decode("utf-8").split("\x00")[0]
+            except UnicodeDecodeError:
+                team_name = "Unknown"  # Fallback if decoding fails
+
+            teams_data[team_id] = team_name
+
+            # Skip the next 414 bytes to reach next team
+            f.seek(414, 1)
+
+    return teams_data
+
+
 def read_team_data(
     binary_file_path, team_entries_start_offset, team_entries_end_offset
 ):

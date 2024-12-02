@@ -1,0 +1,134 @@
+diff --git a/data/FL25v1.2_players.csv b/data/FL25v1.3_players.csv
+index 15df849..0bdc273 100644
+--- a/data/FL25v1.2_players.csv
++++ b/data/FL25v1.3_players.csv
+@@ -975,6 +975,7 @@ PlayerID,PlayerName
+ 41013,Maxime Lestienne
+ 41017,Scott Robinson
+ 41034,Markus Henriksen
++41046,Radja Nainggolan
+ 41047,Pape Souaré
+ 41063,Haris Seferović
+ 41066,Ciro Immobile
+@@ -983,6 +984,7 @@ PlayerID,PlayerName
+ 41083,Eduardo Salvio
+ 41085,Sergi Enrich
+ 41088,Jordi Amat
++41096,Francisco Portillo
+ 41100,Juanmi
+ 41106,Bryan Oviedo
+ 41119,Kyle Walker
+@@ -1144,6 +1146,7 @@ PlayerID,PlayerName
+ 42655,James Tavernier
+ 42657,Shane Ferguson
+ 42659,Jonjo Shelvey
++42660,Patrick van Aanholt
+ 42664,Simon Mignolet
+ 42669,Casemiro
+ 42670,Guillermo Burdisso
+@@ -1154,6 +1157,7 @@ PlayerID,PlayerName
+ 42721,Jesús Corona
+ 42727,Artur Rudko
+ 42751,Eugenio Mena
++42803,Josuha Guilavogui
+ 42805,Nampalys Mendy
+ 42806,Cédric Bakambu
+ 42813,Bebé
+@@ -5623,6 +5627,7 @@ PlayerID,PlayerName
+ 101072,Sandro Ramírez
+ 101075,Craig Forsyth
+ 101076,Emiliano Martínez
++101081,Petros Matheus
+ 101086,Trevor Carson
+ 101091,Josh Magennis
+ 101097,Hakan Çalhanoğlu
+@@ -14807,6 +14812,7 @@ PlayerID,PlayerName
+ 139790,Eugenio Pizzuto
+ 139795,El Bitshiabu
+ 139796,Abdoulaye Kamara
++139797,Édouard Michut
+ 139802,Stefan Schwab
+ 139804,Lukáš Horníček
+ 139808,Noah Holm
+@@ -17848,7 +17854,7 @@ PlayerID,PlayerName
+ 148954,Steven Sserwadda
+ 148964,Owen Beck
+ 148965,Harvey Blair
+-148966,S. Oulad M'Hand
++148966,Salah Oulad M'Hand
+ 148967,Hugo González
+ 148968,Pedro Alemañ
+ 148969,Álvaro Sanz
+@@ -20177,6 +20183,7 @@ PlayerID,PlayerName
+ 159429,Mamadou Sarr
+ 159431,Pedro Santos
+ 159432,Rodrigo Macedo
++159435,Zane Monlouis
+ 159436,N. Butler-Oyedeji
+ 159437,Myles Lewis-Skelly
+ 159438,Charles Sagoe Jr
+@@ -20185,6 +20192,7 @@ PlayerID,PlayerName
+ 159442,Alfie Dorrington
+ 159444,Yago Santiago
+ 159446,Jamie Donley
++159447,Will Lankshear
+ 159451,Adam Bakoune
+ 159453,Jan-Carlo Šimić
+ 159455,Ylies Aradj
+@@ -23652,9 +23660,56 @@ PlayerID,PlayerName
+ 173069,Thierry Katsukunya
+ 173070,Tegan Finn
+ 173071,Joseph Hatch
++173072,Tommaso Ferrari
+ 173075,Aitor Galarza
+ 173081,Nacho Vila
+ 173087,Axel Bejarano
+ 173088,Miguel Torguet
+ 173089,Aitor Crespo
+ 173092,Javier Zabala
++173097,Matías Pezzolesi
++173098,Yerover Gómez
++173099,Mathys Niflore
++173100,Quentin Benaets
++173104,Barış Nazlı
++173105,Michiel Haentjens
++173106,Kaye Furo
++173108,Viggo Andersen
++173110,Dylan Ourega
++173111,Malick Diop
++173112,Henrique Arreiol
++173113,Lucas Taibo
++173114,Edoardo Zaia
++173115,Kevin Barcella
++173116,Lucas García
++173117,Enric García
++173118,Alejandro Jay
++173119,Rayane Messi
++173120,Federico Steffanoni
++173121,Owen Panneflek
++173122,Amine Moussaoui
++173123,Marius Louãr
++173124,Josh Campbell-Slowey
++173125,Raul Giménez Mayo
++173126,Aarón Alonso
++173127,Leonardo Di Tommaso
++173129,Şükur Toğrak
++173130,Zenzo De Boeck
++173131,Rhys Youlley
++173132,Taha Özmert
++173133,Álvaro Novials
++173134,Willy Chatiliez
++173135,Emmanuel Tsimba
++173137,Bertram Skovgaard
++173139,Aymen Sliti
++173141,Ono Vanackere
++173142,Sebbe Gheerardyns
++173143,Søren Coens
++173146,Marc Aznar
++173147,Papa Dame Ba
++173148,Morgan Costarelli
++173149,Tommaso Rubino
++173150,Joshua Clarke
++173151,Benedict Benagr
++173153,Samuel Rak-Sakyi
++173155,Ro-Zangelo Daal

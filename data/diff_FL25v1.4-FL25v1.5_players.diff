@@ -1,0 +1,114 @@
+diff --git a/data/FL25v1.4_players.csv b/data/FL25v1.5_players.csv
+index ef57b75..40dd0a0 100644
+--- a/data/FL25v1.4_players.csv
++++ b/data/FL25v1.5_players.csv
+@@ -300,7 +300,9 @@ PlayerID,PlayerName
+ 8823,Paolo Guerrero
+ 8843,Jonathan Pitroipa
+ 8851,Giorgio Chiellini
++8940,Hatem Ben Arfa
+ 8944,Karim Benzema
++8946,Samir Nasri
+ 8959,Daniele Padelli
+ 8978,Samir Handanovič
+ 8984,Asamoah Gyan
+@@ -525,6 +527,7 @@ PlayerID,PlayerName
+ 32199,Fabio Quagliarella
+ 32299,Sherif Ekramy
+ 32312,Ragnar Klavan
++32313,Mousa Dembélé
+ 32339,Nuri Şahin
+ 32354,K. Prince Boateng
+ 32386,John Ruddy
+@@ -666,6 +669,7 @@ PlayerID,PlayerName
+ 37028,André Ayew
+ 37035,Moussa Sissoko
+ 37039,Carlos Sánchez
++37094,Daniel Sturridge
+ 37106,Ángel Di María
+ 37109,Diego Buonanotte
+ 37117,André Castro
+@@ -807,6 +811,7 @@ PlayerID,PlayerName
+ 39161,Jeroen Zoet
+ 39173,Thiago Silva
+ 39178,Kelvin Leerdam
++39187,Ki Sung-Yueng
+ 39188,Lee Chung-Yong
+ 39206,Niall McGinn
+ 39215,Renato Augusto
+@@ -4139,7 +4144,7 @@ PlayerID,PlayerName
+ 90074,Valentin Paltsev
+ 90076,Renny Jaramillo
+ 90077,Ronald Briones
+-90078,Kakang Rudianto
++90078,Kakang
+ 90079,Adolfo Muñoz
+ 90080,Angelo Mina
+ 90081,Hancel Batalla
+@@ -19256,6 +19261,7 @@ PlayerID,PlayerName
+ 155648,Adriano Schmidt
+ 155650,Harvey Neville
+ 155651,Noé Lebreton
++155652,Simone Pafundi
+ 155660,Léyder Morán
+ 155662,Adrian Blake
+ 155664,Jack Grieves
+@@ -19333,7 +19339,7 @@ PlayerID,PlayerName
+ 156309,Marselino Ferdinan
+ 156310,Elkan Baggott
+ 156311,Marc Klok
+-156312,Asnawi Bahar
++156312,Asnawi Mangkualam
+ 156313,Ricky Kambuaya
+ 156314,Koko Ari
+ 156315,Syahrul Trisna
+@@ -19807,6 +19813,7 @@ PlayerID,PlayerName
+ 157852,Gonçalo Pinto
+ 157855,Marcos Benítez
+ 157856,Destiné Jopanguy
++157857,Alejandro Alfaro
+ 157858,Ewen Jaouen
+ 157859,Joseph Kayaya
+ 157861,Federico Magro
+@@ -21729,6 +21736,7 @@ PlayerID,PlayerName
+ 165238,David González
+ 165239,Mattia Vitale
+ 165240,Alfonso Trezza
++165242,Omar Sissoko
+ 165243,Mohamadou Kanté
+ 165244,Djibril Diagouraga
+ 165245,Dimitri Colau
+@@ -22357,6 +22365,7 @@ PlayerID,PlayerName
+ 167459,Sayed Mahdi Baqer
+ 167462,Ng Wai Him
+ 167468,Muhamad Riyandi
++167470,Muhammad Ferarri
+ 167483,Ahmed Yahya Alhajjaj
+ 167487,Danilo Al Saed
+ 167503,Azim Azarov
+@@ -22867,7 +22876,7 @@ PlayerID,PlayerName
+ 168865,Llorenç Serred
+ 168866,Adrian Liso
+ 168867,Brice Negouai
+-168869,M. Boumaaoui
++168869,Mohamed Boumaaoui
+ 168870,Fletcher Holman
+ 168871,Oliver Bainbridge
+ 168872,Amine Boukamir
+@@ -23305,6 +23314,8 @@ PlayerID,PlayerName
+ 170989,Wessel Kuhn
+ 170992,Žan Jevšenak
+ 171160,A. Stamatelopoulos
++171293,Robi Darwis
++171296,Kakang Rudianto
+ 171405,Abdessamed Bounacer
+ 171496,Mohamed Haidara
+ 171498,Vicko Ševelj
+@@ -23386,6 +23397,7 @@ PlayerID,PlayerName
+ 172001,Yaman Suakar
+ 172003,Justin Janssen
+ 172008,Dhirar Brik
++172009,Simone Testa
+ 172010,Jhoan Montoya
+ 172011,Marwann Nzuzi
+ 172012,Igor Miladinovic
